@@ -1,0 +1,47 @@
+# Agent Gate: Layer-7 Safety Policy Configuration
+version: "1.0"
+
+# Green: Auto-approved immediately without stalling or prompting phone
+green:
+  description: "Read-only and diagnostic commands that cannot damage files or leak secrets"
+  tools:
+    - "read"
+    - "glob"
+    - "grep"
+  commands:
+    - "^git status"
+    - "^git diff"
+    - "^git log"
+    - "^git branch"
+    - "^ls"
+    - "^cat"
+    - "^npm test"
+    - "^pytest"
+
+# Amber: Requires 1-tap confirmation on mobile phone
+amber:
+  description: "Code mutations and dependency installations"
+  tools:
+    - "edit"
+    - "write"
+  commands:
+    - "^npm install"
+    - "^npm add"
+    - "^pip install"
+    - "^git commit"
+    - "^git checkout"
+
+# Red: Hard-blocked or requires 4-digit PIN confirmation
+red:
+  description: "Destructive operations and secret-leaking attempts"
+  blocked_patterns:
+    - "rm -rf"
+    - "sudo"
+    - "curl.*\\|.*sh"
+    - "git push.*--force"
+    - "git reset.*--hard"
+    - "\\.env"
+    - "\\.ssh"
+    - "\\.aws"
+    - "\\.gnupg"
+
