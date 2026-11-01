@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+.env
+.env.local
+.agent-cache/
+docs
+.agents
+.claude
+architecture.md 
+idea.md 
+skills-lock.json
